@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">JALC</string>
+    <string name="interest_rate">Interest rate (percentage)</string>
+    <string name="number_of_months">Number of months</string>
+    <string name="loan">Loan</string>
+    <string name="easy_loan_calculator">Easy loan calculator</string>
+    <string name="taxes_after_loan">Taxes after loan</string>
+    <string name="one_year_taxes">One year taxes</string>
+    <string name="every_month_taxes">Every month taxes</string>
+    <string name="taxes_before_loan">Taxes before loan</string>
+    <string name="calculate">Calculate</string>
+    <string name="compare">Compare</string>
+    <string name="easy_loan_calculator_result">JALC - Result</string>
+    <string name="taxes_total">Total taxes:</string>
+    <string name="anual_percentage_r">Anual percentage rate:</string>
+    <string name="montly_paymant_n">Monthly paymant:</string>
+    <string name="loan_amount">Loan amount:</string>
+    <string name="total_interests_n">Total interests:</string>
+    <string name="total_p">Total paymants:</string>
+    <string name="easy_loan_calculator_schedule">JALC - Schedule</string>
+    <string name="easy_loan_calculator_compare">JALC - Compare</string>
+    <string name="new_loan">New loan</string>
+    <string name="schedule">Schedule</string>
+    <string name="create_pdf">Create PDF</string>
+    <string name="email">Send email</string>
+    <string name="apr_max">APR is more then 7000%</string>
+    <string name="complete_settings">Complete settings</string>
+    <string name="min_loan">Minimum loans 2</string>
+    <string name="max_com_l">Maximum comparable loans: 2</string>
+    <string name="max_com_2">Minimum comparable loans: 2</string>
+    <string name="select_loans">Select loans to compare:</string>
+    <string name="apr_c">APR:</string>
+    <string name="loan1">Loan 1</string>
+    <string name="loan2">Loan 2</string>
+    <string name="am">Amount</string>
+    <string name="ti">Total interest</string>
+    <string name="tt">Total taxes</string>
+    <string name="tp">Total paymants</string>
+    <string name="select_L">Select loan</string>
+    <string name="max">Maximum loan 1</string>
+    <string name="min">Minimum loan 1</string>
+    <string name="cancel">Cancel</string>
+    <string name="loanCheck">Loan:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_result">ResultActivity</string>
+</resources>

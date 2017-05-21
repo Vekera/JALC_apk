@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ResultActivity">
+    <item
+        android:id = "@+id/menu_pdf"
+        android:icon="@drawable/ic_pdf"
+        app:showAsAction="always"
+        android:orderInCategory="100"
+        android:title="PDF" />
+    <item
+        android:id = "@+id/menu_email"
+        android:icon="@drawable/ic_email"
+        app:showAsAction="always"
+        android:orderInCategory="200"
+        android:title="Email" />
+    <item
+        android:id = "@+id/menu_change"
+        android:icon="@drawable/ic_change"
+        app:showAsAction="always"
+        android:orderInCategory="300"
+        android:title="Change" />
+
+</menu>

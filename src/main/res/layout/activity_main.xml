@@ -1,0 +1,203 @@
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        tools:context="broforce42.cz.jalc.MainActivity">
+
+     <android.support.v7.widget.Toolbar
+         android:id="@+id/toolbar_main"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="?attr/colorPrimary"
+         android:minHeight="?attr/actionBarSize"
+         app:titleTextColor="@android:color/white"
+         app:theme="@style/MyCustomToolBarTheme"
+         app:popupTheme="@style/MyCustomToolFloatingTheme"
+         >
+
+
+
+     </android.support.v7.widget.Toolbar>
+
+     <ScrollView
+         android:id="@+id/scroll"
+         style="@android:style/Widget.Holo.Light.ScrollView"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:paddingTop="10dp"
+         android:scrollbarStyle="insideOverlay">
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:paddingLeft="20dp"
+             android:paddingRight="20dp"
+             android:weightSum="1">
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/loan_amount_text_field"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="5dp">
+
+                 <EditText
+                     android:id="@+id/loan_amount"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:ems="10"
+                     android:hint="@string/loan"
+                     android:inputType="number"
+                     android:maxLength="10" />
+             </android.support.design.widget.TextInputLayout>
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/percentage_amount_text_field"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="5dp">
+
+                 <EditText
+                     android:id="@+id/interest_rate"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:ems="10"
+                     android:hint="@string/interest_rate"
+                     android:inputType="numberDecimal"
+                     android:maxLength="3" />
+             </android.support.design.widget.TextInputLayout>
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/months_text_field"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="5dp">
+
+                 <EditText
+                     android:id="@+id/months_number"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:ems="10"
+                     android:hint="@string/number_of_months"
+                     android:inputType="number"
+                     android:maxLength="3" />
+             </android.support.design.widget.TextInputLayout>
+
+             <Switch
+                 android:id="@+id/taxes_plus"
+                 android:layout_width="210dp"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+                 android:paddingLeft="5dp"
+                 android:text="Set loan paymants" />
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/deposit_textfield"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="5dp">
+
+                 <EditText
+                     android:id="@+id/deposit"
+                     android:layout_width="200dp"
+                     android:layout_height="wrap_content"
+                     android:ems="10"
+                     android:hint="Down payment (value)"
+                     android:inputType="number"
+                     android:maxLength="10" />
+             </android.support.design.widget.TextInputLayout>
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/before_tax_text_field"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="10dp">
+
+                 <EditText
+                     android:id="@+id/before_tax"
+                     android:layout_width="200dp"
+                     android:layout_height="wrap_content"
+                     android:ems="10"
+                     android:hint="@string/taxes_before_loan"
+                     android:inputType="number"
+                     android:maxLength="7" />
+             </android.support.design.widget.TextInputLayout>
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/monthly_tax_text_field"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="5dp">
+
+                 <EditText
+                     android:id="@+id/monthly_tax"
+                     android:layout_width="200dp"
+                     android:layout_height="wrap_content"
+                     android:ems="10"
+                     android:hint="@string/every_month_taxes"
+                     android:inputType="number"
+                     android:maxLength="7" />
+             </android.support.design.widget.TextInputLayout>
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/anual_tax_text_field"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true">
+
+                 <EditText
+                     android:id="@+id/anual_tax"
+                     android:layout_width="200dp"
+                     android:layout_height="wrap_content"
+                     android:ems="10"
+                     android:hint="@string/one_year_taxes"
+                     android:inputType="number"
+                     android:maxLength="7" />
+             </android.support.design.widget.TextInputLayout>
+
+             <android.support.design.widget.TextInputLayout
+                 android:id="@+id/after_tax_text_field"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="5dp">
+
+                 <EditText
+                     android:id="@+id/after_tax"
+                     android:layout_width="200dp"
+                     android:layout_height="wrap_content"
+                     android:ems="10"
+                     android:hint="@string/taxes_after_loan"
+                     android:inputType="number"
+                     android:maxLength="7" />
+
+
+             </android.support.design.widget.TextInputLayout>
+
+         </LinearLayout>
+
+     </ScrollView>
+
+     <android.support.design.widget.FloatingActionButton
+         android:id="@+id/fab"
+         android:layout_width="52dp"
+         android:layout_height="53dp"
+         android:layout_gravity="right"
+         android:layout_marginBottom="50dp"
+         android:layout_marginRight="20dp"
+         android:layout_marginTop="-70dp"
+         android:clickable="true"
+         android:src="@drawable/ic_next"
+         app:layout_anchor="@+id/scroll"
+         app:layout_anchorGravity="top|end" />
+
+ </LinearLayout>
