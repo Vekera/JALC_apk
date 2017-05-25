@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -30,13 +29,17 @@ public class ResultFragment extends Fragment {
     private String amount;
     private String apr;
     private String monthlyPaymant;
+    private String monthlyPaymantX;
     private String totalPaymants;
     private String totalInterest;
     private String totalTaxes;
+    private String months;
 
     private List<String> amountLoan = new ArrayList<>();
     private List<String> aprList = new ArrayList<>();
+    private List<String> totalMonths = new ArrayList<>();
     private List<String> monthlyList = new ArrayList<>();
+    private List<String> monthlyListX = new ArrayList<>();
     private List<String> totalPaymantsList = new ArrayList<>();
     private List<String> totalInterestList = new ArrayList<>();
     private List<String> totalTaxesList = new ArrayList<>();
@@ -57,7 +60,6 @@ public class ResultFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,36 +78,40 @@ public class ResultFragment extends Fragment {
         x = this.getArguments().getInt("ID");
         amountLoan = this.getArguments().getStringArrayList("AMOUNTBUNDLE");
         monthlyList = this.getArguments().getStringArrayList("MONTHLYPAYMANT");
+        monthlyListX = this.getArguments().getStringArrayList("MONTHLYPAYMANTX");
         aprList = this.getArguments().getStringArrayList("APRBUNDLE");
         totalPaymantsList = this.getArguments().getStringArrayList("TOTALPAYMANTS");
         totalInterestList = this.getArguments().getStringArrayList("INTERESTBUNDE");
         totalTaxesList = this.getArguments().getStringArrayList("TAXESBUNDLE");
+        totalMonths = this.getArguments().getStringArrayList("MONTHS");
     }
 
     private void setResults(int y) {
         amount = amountLoan.get(y);
         monthlyPaymant = monthlyList.get(y);
+        monthlyPaymantX = monthlyListX.get(y);
         apr = aprList.get(y);
         totalPaymants = totalPaymantsList.get(y);
         totalInterest = totalInterestList.get(y);
         totalTaxes = totalTaxesList.get(y);
-
+        months = totalMonths.get(y);
     }
 
     //Method tu setup chart
     private void setupPieChart() {
         setResults(x);
+        final int[] MY_COLORS = {Color.rgb(251, 189, 8), Color.rgb(115, 115, 115), Color.rgb(158, 157, 36)};
         List<PieEntry> pieEntries = new ArrayList<>();
-        PieEntry loanEntry = new PieEntry(Float.valueOf(amount), "Amount");
-        PieEntry interestEntry = new PieEntry(Float.valueOf(totalInterest), "Interest");
+        PieEntry loanEntry = new PieEntry(Float.valueOf(amount), getString(R.string.principal));
+        PieEntry interestEntry = new PieEntry(Float.valueOf(totalInterest), getString(R.string.interest));
         pieEntries.add(loanEntry);
         pieEntries.add(interestEntry);
         if (Float.valueOf(totalTaxes) != 0.0) {
-            PieEntry taxEntry = new PieEntry(Float.valueOf(totalTaxes), "Taxes");
+            PieEntry taxEntry = new PieEntry(Float.valueOf(totalTaxes), getString(R.string.taxes));
             pieEntries.add(taxEntry);
         }
         PieDataSet dataSet = new PieDataSet(pieEntries, "");
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        dataSet.setColors(MY_COLORS);
         dataSet.setValueFormatter(new PercentFormatter());
         dataSet.setValueTextColor(Color.WHITE);
         dataSet.setValueTextSize(12);
@@ -120,7 +126,6 @@ public class ResultFragment extends Fragment {
         chart.setData(data);
         chart.animateY(1000);
         chart.invalidate();
-
     }
 
     //table result
@@ -138,6 +143,18 @@ public class ResultFragment extends Fragment {
         loanAmountNumber.setText(decimalFormater(Long.valueOf(amount)));
         rowA.addView(loanAmountNumber);
 
+        TableRow rowX = new TableRow(getActivity());
+        TextView monthsX = new TextView(getActivity());
+        monthsX.setTypeface(null, Typeface.BOLD);
+        monthsX.setGravity(Gravity.LEFT);
+        monthsX.setText(R.string.months);
+        rowX.addView(monthsX);
+        TextView totalMonths = new TextView(getActivity());
+        totalMonths.setGravity(Gravity.RIGHT);
+        totalMonths.setPadding(10, 0, 0, 0);
+        totalMonths.setText(months);
+        rowX.addView(totalMonths);
+
         TableRow rowB = new TableRow(getActivity());
         TextView monthlyAmount = new TextView(getActivity());
         monthlyAmount.setTypeface(null, Typeface.BOLD);
@@ -149,6 +166,18 @@ public class ResultFragment extends Fragment {
         monthlyAmountNumber.setPadding(10, 0, 0, 0);
         monthlyAmountNumber.setText(decimalFormaterX(Double.valueOf(monthlyPaymant)));
         rowB.addView(monthlyAmountNumber);
+
+        TableRow rowC = new TableRow(getActivity());
+        TextView monthlyAmountX = new TextView(getActivity());
+        monthlyAmountX.setTypeface(null, Typeface.BOLD);
+        monthlyAmountX.setGravity(Gravity.LEFT);
+        monthlyAmountX.setText(R.string.montly_paymant_m);
+        rowC.addView(monthlyAmountX);
+        TextView monthlyAmountNumberX = new TextView(getActivity());
+        monthlyAmountNumberX.setGravity(Gravity.RIGHT);
+        monthlyAmountNumberX.setPadding(10, 0, 0, 0);
+        monthlyAmountNumberX.setText(decimalFormaterX(Double.valueOf(monthlyPaymantX)));
+        rowC.addView(monthlyAmountNumberX);
 
         TableRow rowD = new TableRow(getActivity());
         TextView anualPR = new TextView(getActivity());
@@ -199,12 +228,13 @@ public class ResultFragment extends Fragment {
         rowG.addView(totalNumber);
 
         resultLayout.addView(rowA);
+        resultLayout.addView(rowX);
         resultLayout.addView(rowB);
+        resultLayout.addView(rowC);
         resultLayout.addView(rowD);
         resultLayout.addView(rowE);
         resultLayout.addView(rowF);
         resultLayout.addView(rowG);
-
     }
 
     private String decimalFormater(long val) {
@@ -220,5 +250,4 @@ public class ResultFragment extends Fragment {
         String formattedString = formatter.format(val);
         return formattedString;
     }
-
 }

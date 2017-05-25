@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -24,11 +23,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import cz.broforce42.calculator.apr.DefaultAprCalculator;
-import cz.broforce42.model.ITaxes;
-import cz.broforce42.model.impl.Loan;
-import cz.broforce42.model.impl.Taxes;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -136,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initToolBar() {
-        toolbar.setTitle("JALC");
+        toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
 
     }
@@ -153,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_about:
                 dialogueMaker();
+                return true;
+            case R.id.menu_help:
+                helpDialogue();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -174,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             if (!downPaymentTaxes.getText().toString().isEmpty()) {
                 long amountDown = 0;
                 amountDown = Long.parseLong(amount.getText().toString().replaceAll(",", "")) - Long.parseLong(downPaymentTaxes.getText().toString().replaceAll(",", ""));
-                amountData.add(x,String.valueOf(amountDown));
+                amountData.add(x, String.valueOf(amountDown));
             } else {
                 amountData.add(x, amount.getText().toString().replaceAll(",", ""));
             }
@@ -299,9 +296,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void dialogueMaker() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setTitle("About JALC");
+        builder.setTitle(R.string.about_jalc);
         builder.setMessage(" Just another loan calcultator\n Created by broforce42 studio\n Web page: www.broforce42.com\n Email: broforce42@broforce42.com");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
@@ -310,7 +307,19 @@ public class MainActivity extends AppCompatActivity {
 
         dialog = builder.create();
         dialog.show();
-
     }
 
+    private void helpDialogue() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+        View hView = getLayoutInflater().inflate(R.layout.dialog_help, null);
+        builder.setView(hView);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
+    }
 }

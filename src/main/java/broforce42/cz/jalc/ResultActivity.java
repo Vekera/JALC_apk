@@ -55,8 +55,10 @@ public class ResultActivity extends AppCompatActivity {
 
     //Variabile result
     private static List<String> amountLoan = new ArrayList<>();
+    private static List<String> totalMonths = new ArrayList<>();
     private static List<String> apr = new ArrayList<>();
     private static List<String> monthlyPaymant = new ArrayList<>();
+    private static List<String> monthlyPaymantX = new ArrayList<>();
     private static List<String> totalPaymants = new ArrayList<>();
     private static List<String> totalInterest = new ArrayList<>();
     private static List<String> totalTaxes = new ArrayList<>();
@@ -67,7 +69,6 @@ public class ResultActivity extends AppCompatActivity {
     private List<String> principal = new ArrayList<>();
     private List<String> actualBalance = new ArrayList<>();
 
-
     //Library- loan calculator
     private Loan loan;
     private LoanCalculator calcultator;
@@ -76,7 +77,6 @@ public class ResultActivity extends AppCompatActivity {
 
     //Toolbar - action bar
     private Toolbar toolbar;
-
 
     //File
     private File myFile;
@@ -102,7 +102,6 @@ public class ResultActivity extends AppCompatActivity {
         tabLayout();
         setVariabiles(x);
         scheduleGenerator();
-
     }
 
     public void initToolBar() {
@@ -135,7 +134,7 @@ public class ResultActivity extends AppCompatActivity {
                 if (amountData.size() > 1) {
                     dialogueMakerCahnege();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Set only one loan", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.set_one_loan, Toast.LENGTH_LONG).show();
                 }
                 return true;
             default:
@@ -145,9 +144,9 @@ public class ResultActivity extends AppCompatActivity {
 
     private void tabLayout() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.result_tab);
-        tabLayout.addTab(tabLayout.newTab().setText("Result"));
-        tabLayout.addTab(tabLayout.newTab().setText("Schedule"));
-        tabLayout.addTab(tabLayout.newTab().setText("Compare"));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.result));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.schedule)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.compare)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         adapter = new ResultActivity.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -166,11 +165,9 @@ public class ResultActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
-
 
     private final class PagerAdapter extends FragmentStatePagerAdapter {
         int nNumOfTabs;
@@ -216,13 +213,13 @@ public class ResultActivity extends AppCompatActivity {
 
     private void getIntentLoan() {
         Intent intent = getIntent();
-        amountData= intent.getStringArrayListExtra("AMOUNT");
-        interestData= intent.getStringArrayListExtra("INTEREST");
-        numberMonthsData= intent.getStringArrayListExtra("MONTHS");
-        beforeTax= intent.getStringArrayListExtra("BEFORET");
-        monthlyTax= intent.getStringArrayListExtra("MONTHLYT");
-        yearTax= intent.getStringArrayListExtra("YEART");
-        afterTax= intent.getStringArrayListExtra("AFTERT");
+        amountData = intent.getStringArrayListExtra("AMOUNT");
+        interestData = intent.getStringArrayListExtra("INTEREST");
+        numberMonthsData = intent.getStringArrayListExtra("MONTHS");
+        beforeTax = intent.getStringArrayListExtra("BEFORET");
+        monthlyTax = intent.getStringArrayListExtra("MONTHLYT");
+        yearTax = intent.getStringArrayListExtra("YEART");
+        afterTax = intent.getStringArrayListExtra("AFTERT");
         x = intent.getIntExtra("LOANID", 0);
     }
 
@@ -252,9 +249,9 @@ public class ResultActivity extends AppCompatActivity {
             this.aprCalculator = new DefaultAprCalculator();
             double controllAPR = aprCalculator.getAPR(loan);
             if (controllAPR > 50) {
-                Toast.makeText(getApplicationContext(), "APR more then 50%", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.apr_max), Toast.LENGTH_LONG).show();
                 loan.setAnnualPercentageRate(50);
-            }else {
+            } else {
                 loan.setAnnualPercentageRate(controllAPR);
             }
 
@@ -271,6 +268,8 @@ public class ResultActivity extends AppCompatActivity {
         totalInterest.add(z, String.format("%.2f", loan.getTotalInterests()));
         apr.add(z, String.format("%.2f", loan.getAnnualPercentageRate()));
         totalPaymants.add(z, String.format("%.2f", loan.getTotalPayments()));
+        monthlyPaymantX.add(z, String.format("%.2f", loan.getMonthlyPayment() + loan.getMonthlyTaxes() + (loan.getYearTaxes() / 12)));
+        totalMonths.add(z, String.valueOf(loan.getNumberOfPayments()));
     }
 
     //Method to fill arrays with schedule information
@@ -291,9 +290,10 @@ public class ResultActivity extends AppCompatActivity {
         bundle.putStringArrayList("TAXESBUNDLE", (ArrayList<String>) totalTaxes);
         bundle.putStringArrayList("TOTALPAYMANTS", (ArrayList<String>) totalPaymants);
         bundle.putStringArrayList("MONTHLYPAYMANT", (ArrayList<String>) monthlyPaymant);
+        bundle.putStringArrayList("MONTHLYPAYMANTX", (ArrayList<String>) monthlyPaymantX);
         bundle.putStringArrayList("APRBUNDLE", (ArrayList<String>) apr);
+        bundle.putStringArrayList("MONTHS", (ArrayList<String>) totalMonths);
         bundle.putInt("ID", x);
-
     }
 
     private void sendDataSchedule() {
@@ -304,10 +304,9 @@ public class ResultActivity extends AppCompatActivity {
         bundle.putStringArrayList("ACTUALBALANCE", (ArrayList<String>) actualBalance);
     }
 
-
     private void checkBox() {
         for (int x = 1; x <= amountData.size(); x++) {
-            loansCheckBoxList.add("Loan: " + x);
+            loansCheckBoxList.add(getString(R.string.loan_check) + x);
         }
     }
 
@@ -317,7 +316,7 @@ public class ResultActivity extends AppCompatActivity {
         items = loansCheckBoxList.toArray(items);
         itemsSelected = new ArrayList();
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setTitle("Select loan- PDF");
+        builder.setTitle(R.string.select_loan_pdf);
         builder.setCancelable(false);
         builder.setMultiChoiceItems(items, null,
                 new DialogInterface.OnMultiChoiceClickListener() {
@@ -335,18 +334,18 @@ public class ResultActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         if (itemsSelected.size() > 1) {
-                            Toast.makeText(getApplicationContext(), "Choose one loan", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.choos_one_loan, Toast.LENGTH_LONG).show();
                             loansCheckBoxList.clear();
                             itemsSelected.clear();
                         } else {
                             setupPDF();
                             try {
-                                Toast.makeText(getApplicationContext(), "Creating PDF", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.create_pdf), Toast.LENGTH_SHORT).show();
 
-                                    setupPDF();
-                                    pdfCreate();
+                                setupPDF();
+                                pdfCreate();
 
-                                Toast.makeText(getApplicationContext(), "PDF create in Document directory", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), R.string.pdf_create_document, Toast.LENGTH_LONG).show();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -355,7 +354,7 @@ public class ResultActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -374,7 +373,7 @@ public class ResultActivity extends AppCompatActivity {
         items = loansCheckBoxList.toArray(items);
         itemsSelected = new ArrayList();
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setTitle("Select loan- Email");
+        builder.setTitle(R.string.select_loan_email);
         builder.setCancelable(false);
         builder.setMultiChoiceItems(items, null,
                 new DialogInterface.OnMultiChoiceClickListener() {
@@ -388,11 +387,11 @@ public class ResultActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setPositiveButton("Generate Email", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.generate_email, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         if (itemsSelected.size() > 1) {
-                            Toast.makeText(getApplicationContext(), "Choose one loan", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.choos_one_loan, Toast.LENGTH_LONG).show();
                             loansCheckBoxList.clear();
                             itemsSelected.clear();
                         } else {
@@ -407,7 +406,7 @@ public class ResultActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -425,7 +424,7 @@ public class ResultActivity extends AppCompatActivity {
         items = loansCheckBoxList.toArray(items);
         itemsSelected = new ArrayList();
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setTitle("Select loan");
+        builder.setTitle(R.string.select_loan);
         builder.setCancelable(false);
         builder.setMultiChoiceItems(items, null,
                 new DialogInterface.OnMultiChoiceClickListener() {
@@ -439,11 +438,11 @@ public class ResultActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setPositiveButton("Change loan", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.change_loan, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         if (itemsSelected.size() > 1) {
-                            Toast.makeText(getApplicationContext(), "Choose one loan", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.choos_one_loan, Toast.LENGTH_LONG).show();
                             loansCheckBoxList.clear();
                             itemsSelected.clear();
                         } else {
@@ -457,7 +456,7 @@ public class ResultActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -497,7 +496,7 @@ public class ResultActivity extends AppCompatActivity {
             contentStream.setFont(font, 25);
             contentStream.newLineAtOffset(230, 740);
             contentStream.setLeading(15);
-            contentStream.showText("Loan schedule");
+            contentStream.showText(getString(R.string.loan_schedule));
             contentStream.newLine();
             contentStream.endText();
 
@@ -506,26 +505,28 @@ public class ResultActivity extends AppCompatActivity {
             contentStream.setFont(font, 20);
             contentStream.newLineAtOffset(50, 700);
             contentStream.setLeading(25);
-            contentStream.showText("Loan amount: " + amountLoan.get(itemsSelected.get(0)));
+            contentStream.showText(getString(R.string.loan_amount) + " " + amountLoan.get(itemsSelected.get(0)));
             contentStream.newLine();
-            contentStream.showText("Anual percentage rate: " + apr.get(itemsSelected.get(0)) + "%");
+            contentStream.showText(getString(R.string.anual_percentage) + " " + apr.get(itemsSelected.get(0)) + "%");
             contentStream.newLine();
-            contentStream.showText("Monthly payment: " + monthlyPaymant.get(itemsSelected.get(0)));
+            contentStream.showText(getString(R.string.montly_paymant_n) + " " + monthlyPaymant.get(itemsSelected.get(0)));
             contentStream.newLine();
-            contentStream.showText("Total interest: " + totalInterest.get(itemsSelected.get(0)));
+            contentStream.showText(getString(R.string.montly_paymant_m) + " " + monthlyPaymantX.get(itemsSelected.get(0)));
+            contentStream.newLine();
+            contentStream.showText(getString(R.string.total_interest) + " " + totalInterest.get(itemsSelected.get(0)));
             if (totalTaxes != null) {
                 contentStream.newLine();
-                contentStream.showText("Total taxes: " + totalTaxes.get(itemsSelected.get(0)));
+                contentStream.showText(getString(R.string.total_taxes) + " " + totalTaxes.get(itemsSelected.get(0)));
             }
             contentStream.newLine();
-            contentStream.showText("Total paymants: " + totalPaymants.get(itemsSelected.get(0)));
+            contentStream.showText(getString(R.string.total_payments) + " " + totalPaymants.get(itemsSelected.get(0)));
             contentStream.newLine();
             contentStream.endText();
 
             contentStream.beginText();
             contentStream.setNonStrokingColor(0, 0, 0);
             contentStream.setFont(font, 20);
-            contentStream.newLineAtOffset(50, 545);
+            contentStream.newLineAtOffset(50, 525);
             contentStream.setLeading(15);
             contentStream.showText("ID");
             contentStream.newLine();
@@ -534,9 +535,9 @@ public class ResultActivity extends AppCompatActivity {
             contentStream.beginText();
             contentStream.setNonStrokingColor(0, 0, 0);
             contentStream.setFont(font, 20);
-            contentStream.newLineAtOffset(100, 545);
+            contentStream.newLineAtOffset(100, 525);
             contentStream.setLeading(15);
-            contentStream.showText("Loan interest");
+            contentStream.showText(getString(R.string.loan_interest));
             contentStream.newLine();
             contentStream.endText();
 
@@ -544,22 +545,22 @@ public class ResultActivity extends AppCompatActivity {
             contentStream.beginText();
             contentStream.setNonStrokingColor(0, 0, 0);
             contentStream.setFont(font, 20);
-            contentStream.newLineAtOffset(240, 545);
+            contentStream.newLineAtOffset(240, 525);
             contentStream.setLeading(15);
-            contentStream.showText("Loan principal");
+            contentStream.showText(getString(R.string.loan_principal));
             contentStream.newLine();
             contentStream.endText();
 
             contentStream.beginText();
             contentStream.setNonStrokingColor(0, 0, 0);
             contentStream.setFont(font, 20);
-            contentStream.newLineAtOffset(400, 545);
+            contentStream.newLineAtOffset(400, 525);
             contentStream.setLeading(15);
-            contentStream.showText("Actual balance");
+            contentStream.showText(getString(R.string.actual_balance));
             contentStream.newLine();
             contentStream.endText();
 
-            int y = 520;
+            int y = 500;
             for (int xY = 0; xY <= id.size() - 1; xY++) {
                 if (xY == 25 || xY == 60 || xY == 95 || xY == 130 || xY == 165 || xY == 200 || xY == 235 || xY == 270 || xY == 305
                         || xY == 340 || xY == 375 || xY == 410 || xY == 445 || xY == 480 || xY == 515 || xY == 550
@@ -601,7 +602,7 @@ public class ResultActivity extends AppCompatActivity {
                 contentStream.setFont(font, 10);
                 contentStream.newLineAtOffset(400, 13);
                 contentStream.setLeading(15);
-                contentStream.showText("Created from JALC, @broforce42");
+                contentStream.showText(getString(R.string.pdf_jalc));
                 contentStream.newLine();
                 contentStream.endText();
                 y = y - 18;
@@ -624,12 +625,12 @@ public class ResultActivity extends AppCompatActivity {
         Uri uri = Uri.fromFile(myFile);
         try {
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Loan schedule");
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.loan_schedule));
             emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
             emailIntent.setType("message/rfc822");
-            startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
+            startActivity(Intent.createChooser(emailIntent, getString(R.string.pick_provider)));
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(getApplicationContext(), "There is no email client installed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.no_email_client, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -639,5 +640,4 @@ public class ResultActivity extends AppCompatActivity {
         interestLoan.clear();
         actualBalance.clear();
     }
-
 }

@@ -37,11 +37,13 @@ import java.util.List;
 public class CompareFragment extends Fragment {
 
     private List<String> amountLoan = new ArrayList<>();
+    private List<String> totalMonths = new ArrayList<>();
     private List<String> aprList = new ArrayList<>();
     private List<String> monthlyList = new ArrayList<>();
     private List<String> totalPaymantsList = new ArrayList<>();
     private List<String> totalInterestList = new ArrayList<>();
     private List<String> totalTaxesList = new ArrayList<>();
+    private List<String> monthlyListX = new ArrayList<>();
 
     //View to find views
     private View rootView;
@@ -69,7 +71,6 @@ public class CompareFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class CompareFragment extends Fragment {
             barChart.setVisibility(View.INVISIBLE);
             changeCompare.setVisibility(View.INVISIBLE);
             TextView text = new TextView(getActivity());
-            text.setText("No data!");
+            text.setText(R.string.no_data);
             text.setGravity(Gravity.CENTER_HORIZONTAL);
             text.setTextSize(20);
             linearLayout.addView(text);
@@ -95,27 +96,28 @@ public class CompareFragment extends Fragment {
         return rootView;
     }
 
-    private void butoonChange(){
-            changeCompare.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialogueMakerCahnege();
-                }
-            });
-        }
+    private void butoonChange() {
+        changeCompare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogueMakerCahnege();
+            }
+        });
+    }
 
     private void checkBox() {
         for (int x = 1; x <= amountLoan.size(); x++) {
-            loansCheckBoxList.add("Loan: " + x);
+            loansCheckBoxList.add(getString(R.string.loan_check) + x);
         }
     }
+
     private void dialogueMakerCahnege() {
         checkBox();
         String[] items = new String[loansCheckBoxList.size()];
         items = loansCheckBoxList.toArray(items);
         itemsSelected = new ArrayList();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
-        builder.setTitle("Select loan");
+        builder.setTitle(R.string.select_loan);
         builder.setCancelable(false);
         builder.setMultiChoiceItems(items, null,
                 new DialogInterface.OnMultiChoiceClickListener() {
@@ -129,23 +131,23 @@ public class CompareFragment extends Fragment {
                         }
                     }
                 })
-                .setPositiveButton("Change loan", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.change_loan, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         if (itemsSelected.size() > 2 || itemsSelected.size() < 1) {
-                            Toast.makeText(getContext(), "Set 2 loans", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), R.string.set_two_loans, Toast.LENGTH_LONG).show();
                             loansCheckBoxList.clear();
                             itemsSelected.clear();
                         } else {
                             compareLayout.removeAllViews();
-                            createChart(itemsSelected.get(0),itemsSelected.get(1));
-                            compareTableFill(itemsSelected.get(0),itemsSelected.get(1));
+                            createChart(itemsSelected.get(0), itemsSelected.get(1));
+                            compareTableFill(itemsSelected.get(0), itemsSelected.get(1));
                             loansCheckBoxList.clear();
                             itemsSelected.clear();
                         }
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -161,10 +163,12 @@ public class CompareFragment extends Fragment {
     private void bundleResult() {
         amountLoan = this.getArguments().getStringArrayList("AMOUNTBUNDLE");
         monthlyList = this.getArguments().getStringArrayList("MONTHLYPAYMANT");
+        monthlyListX = this.getArguments().getStringArrayList("MONTHLYPAYMANTX");
         aprList = this.getArguments().getStringArrayList("APRBUNDLE");
         totalPaymantsList = this.getArguments().getStringArrayList("TOTALPAYMANTS");
         totalInterestList = this.getArguments().getStringArrayList("INTERESTBUNDE");
         totalTaxesList = this.getArguments().getStringArrayList("TAXESBUNDLE");
+        totalMonths = this.getArguments().getStringArrayList("MONTHS");
     }
 
     //Create graph
@@ -185,7 +189,6 @@ public class CompareFragment extends Fragment {
         xVal1.add(getString(R.string.tt));
         xVal1.add(getString(R.string.tp));
 
-
         ArrayList yVal1 = new ArrayList();
         ArrayList yVal2 = new ArrayList();
         yVal1.add(new BarEntry(1, Float.parseFloat(amountLoan.get(x))));
@@ -202,7 +205,7 @@ public class CompareFragment extends Fragment {
         set1.setColors(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
         set1.setValueTextSize(12);
         set2 = new BarDataSet(yVal2, getString(R.string.loan2));
-        set2.setColors(ContextCompat.getColor(getActivity(), R.color.colorFalse));
+        set2.setColors(ContextCompat.getColor(getActivity(), R.color.colorAccent));
         set2.setValueTextSize(12);
         BarData data = new BarData(set1, set2);
         data.setValueFormatter(new LargeValueFormatter());
@@ -239,14 +242,14 @@ public class CompareFragment extends Fragment {
         TextView loan1 = new TextView(getActivity());
         loan1.setTypeface(null, Typeface.BOLD);
         loan1.setGravity(Gravity.CENTER);
-        loan1.setText("Loan 1");
+        loan1.setText(getString(R.string.loan1));
         loan1.setPadding(20, 0, 0, 0);
         row.addView(loan1);
         TextView loan2 = new TextView(getActivity());
         loan2.setTypeface(null, Typeface.BOLD);
         loan2.setGravity(Gravity.CENTER);
-        loan2.setPadding(65, 0, 0, 0);
-        loan2.setText("Loan 2");
+        loan2.setPadding(45, 0, 0, 0);
+        loan2.setText(getString(R.string.loan2));
         row.addView(loan2);
 
         TableRow rowA = new TableRow(getActivity());
@@ -257,15 +260,31 @@ public class CompareFragment extends Fragment {
         loanAmount.setPadding(10, 0, 0, 0);
         rowA.addView(loanAmount);
         TextView loanAmountNumber1 = new TextView(getActivity());
-        loanAmountNumber1.setGravity(Gravity.LEFT);
+        loanAmountNumber1.setGravity(Gravity.RIGHT);
         loanAmountNumber1.setPadding(20, 0, 0, 0);
         loanAmountNumber1.setText(decimalFormater(Long.valueOf(amountLoan.get(x))));
         rowA.addView(loanAmountNumber1);
         TextView loanAmountNumber2 = new TextView(getActivity());
         loanAmountNumber2.setGravity(Gravity.RIGHT);
-        loanAmountNumber2.setPadding(65, 0, 0, 0);
+        loanAmountNumber2.setPadding(45, 0, 0, 0);
         loanAmountNumber2.setText(decimalFormater(Long.valueOf(amountLoan.get(y))));
         rowA.addView(loanAmountNumber2);
+
+        TableRow rowX = new TableRow(getActivity());
+        TextView monthsX = new TextView(getActivity());
+        monthsX.setTypeface(null, Typeface.BOLD);
+        monthsX.setGravity(Gravity.LEFT);
+        monthsX.setText(R.string.months);
+        monthsX.setPadding(10, 0, 0, 0);
+        rowX.addView(monthsX);
+        TextView monthsXY = new TextView(getActivity());
+        monthsXY.setGravity(Gravity.RIGHT);
+        monthsXY.setText(totalMonths.get(x));
+        rowX.addView(monthsXY);
+        TextView monthsXYX = new TextView(getActivity());
+        monthsXYX.setGravity(Gravity.RIGHT);
+        monthsXYX.setText(totalMonths.get(y));
+        rowX.addView(monthsXYX);
 
         TableRow rowB = new TableRow(getActivity());
         TextView monthlyAmount = new TextView(getActivity());
@@ -283,6 +302,22 @@ public class CompareFragment extends Fragment {
         monthlyAmountNumber2.setText(decimalFormaterX(Double.valueOf(monthlyList.get(y))));
         rowB.addView(monthlyAmountNumber2);
 
+        TableRow rowC = new TableRow(getActivity());
+        TextView monthlyAmountX = new TextView(getActivity());
+        monthlyAmountX.setTypeface(null, Typeface.BOLD);
+        monthlyAmountX.setGravity(Gravity.LEFT);
+        monthlyAmountX.setText(R.string.montly_paymant_m);
+        monthlyAmountX.setPadding(10, 0, 0, 0);
+        rowC.addView(monthlyAmountX);
+        TextView monthlyAmountNumber1X = new TextView(getActivity());
+        monthlyAmountNumber1X.setGravity(Gravity.RIGHT);
+        monthlyAmountNumber1X.setText(decimalFormaterX(Double.valueOf(monthlyListX.get(x))));
+        rowC.addView(monthlyAmountNumber1X);
+        TextView monthlyAmountNumber2X = new TextView(getActivity());
+        monthlyAmountNumber2X.setGravity(Gravity.RIGHT);
+        monthlyAmountNumber2X.setText(decimalFormaterX(Double.valueOf(monthlyListX.get(y))));
+        rowC.addView(monthlyAmountNumber2X);
+
         TableRow rowD = new TableRow(getActivity());
         TextView anualPR = new TextView(getActivity());
         anualPR.setTypeface(null, Typeface.BOLD);
@@ -298,7 +333,6 @@ public class CompareFragment extends Fragment {
         anualNumber2.setGravity(Gravity.RIGHT);
         anualNumber2.setText(aprList.get(y) + "%");
         rowD.addView(anualNumber2);
-
 
         TableRow rowE = new TableRow(getActivity());
         TextView totalTaxesN = new TextView(getActivity());
@@ -350,7 +384,9 @@ public class CompareFragment extends Fragment {
 
         compareLayout.addView(row);
         compareLayout.addView(rowA);
+        compareLayout.addView(rowX);
         compareLayout.addView(rowB);
+        compareLayout.addView(rowC);
         compareLayout.addView(rowD);
         compareLayout.addView(rowE);
         compareLayout.addView(rowF);
@@ -371,6 +407,4 @@ public class CompareFragment extends Fragment {
         String formattedString = formatter.format(val);
         return formattedString;
     }
-
-
 }

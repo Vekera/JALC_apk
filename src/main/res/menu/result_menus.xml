@@ -8,18 +8,18 @@
         android:icon="@drawable/ic_pdf"
         app:showAsAction="always"
         android:orderInCategory="100"
-        android:title="PDF" />
+        android:title="@string/pdf" />
     <item
         android:id = "@+id/menu_email"
         android:icon="@drawable/ic_email"
         app:showAsAction="always"
         android:orderInCategory="200"
-        android:title="Email" />
+        android:title="@string/email_m" />
     <item
         android:id = "@+id/menu_change"
         android:icon="@drawable/ic_change"
         app:showAsAction="always"
         android:orderInCategory="300"
-        android:title="Change" />
+        android:title="@string/change" />
 
 </menu>

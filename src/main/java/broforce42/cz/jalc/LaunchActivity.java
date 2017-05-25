@@ -2,8 +2,8 @@ package broforce42.cz.jalc;
 
 import android.content.Intent;
 import android.graphics.PixelFormat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,18 +26,23 @@ public class LaunchActivity extends AppCompatActivity {
         Window window = getWindow();
         window.setFormat(PixelFormat.RGBA_8888);
     }
-    /** Called when the activity is first created. */
+
+    /**
+     * Called when the activity is first created.
+     */
     Thread splashTread;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         startAnimations();
     }
+
     private void startAnimations() {
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
         anim.reset();
-        LinearLayout l=(LinearLayout) findViewById(R.id.lin_lay);
+        LinearLayout l = (LinearLayout) findViewById(R.id.lin_lay);
         l.clearAnimation();
         l.startAnimation(anim);
 
@@ -46,9 +51,6 @@ public class LaunchActivity extends AppCompatActivity {
         ImageView iv = (ImageView) findViewById(R.id.splash);
         iv.clearAnimation();
         iv.startAnimation(anim);
-
-        //setupPDF();
-
 
         splashTread = new Thread() {
             @Override
@@ -74,22 +76,5 @@ public class LaunchActivity extends AppCompatActivity {
             }
         };
         splashTread.start();
-    }
-
-    private void setupPDF(){
-        PDFBoxResourceLoader.init(getApplicationContext());
-        PDDocument document = new PDDocument();
-        PDPage page = new PDPage();
-        document.addPage(page);
-        PDPageContentStream contentStream;
-        PDFont font = PDType1Font.TIMES_ROMAN;
-        try {
-            contentStream = new PDPageContentStream(document, page);
-            contentStream.setFont(font, 25);
-            contentStream.close();
-            document.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

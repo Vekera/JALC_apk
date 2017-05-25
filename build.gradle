@@ -29,6 +29,7 @@ dependencies {
     compile files('libs/pdfbox-apache.jar')
     compile files('libs/commons-collections4-4.1-javadoc.jar')
     compile files('libs/commons-collections4-4.1.jar')
+    compile files('libs/loanlib-1.9.9-CURRENT.jar')
     compile 'com.android.support:design:25.1.1'
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
@@ -39,5 +40,4 @@ dependencies {
     compile 'com.tom_roush:pdfbox-android:1.8.9.1'
     compile 'com.android.support:support-v4:25.1.1'
     testCompile 'junit:junit:4.12'
-    compile files('libs/loanlib-1.9.9-CURRENT.jar')
 }

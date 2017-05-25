@@ -50,8 +50,6 @@
                 android:layout_marginTop="10dp"></TableLayout>
 
 
-
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

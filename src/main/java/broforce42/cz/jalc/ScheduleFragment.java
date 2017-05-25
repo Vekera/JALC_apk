@@ -35,7 +35,6 @@ public class ScheduleFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class ScheduleFragment extends Fragment {
         TableRow row = new TableRow(getActivity());
         TextView idX = new TextView(getActivity());
         idX.setTypeface(null, Typeface.BOLD);
-        idX.setText("MON");
+        idX.setText(R.string.mon);
         idX.setBackgroundResource(R.color.colorPrimaryDark);
         idX.setPadding(30, 5, 0, 5);
         idX.setGravity(Gravity.CENTER);
@@ -61,7 +60,7 @@ public class ScheduleFragment extends Fragment {
         row.addView(idX);
         TextView interestX = new TextView(getActivity());
         interestX.setTypeface(null, Typeface.BOLD);
-        interestX.setText("INT");
+        interestX.setText(R.string.intx);
         interestX.setBackgroundResource(R.color.colorPrimaryDark);
         interestX.setPadding(30, 5, 0, 5);
         interestX.setGravity(Gravity.CENTER);
@@ -69,7 +68,7 @@ public class ScheduleFragment extends Fragment {
         row.addView(interestX);
         TextView principalX = new TextView(getActivity());
         principalX.setTypeface(null, Typeface.BOLD);
-        principalX.setText("PR");
+        principalX.setText(R.string.pr);
         principalX.setBackgroundResource(R.color.colorPrimaryDark);
         principalX.setPadding(35, 5, 0, 5);
         principalX.setGravity(Gravity.CENTER);
@@ -77,7 +76,7 @@ public class ScheduleFragment extends Fragment {
         row.addView(principalX);
         TextView actualBalanceX = new TextView(getActivity());
         actualBalanceX.setTypeface(null, Typeface.BOLD);
-        actualBalanceX.setText("AB");
+        actualBalanceX.setText(R.string.ab);
         actualBalanceX.setBackgroundResource(R.color.colorPrimaryDark);
         actualBalanceX.setPadding(35, 5, 30, 5);
         actualBalanceX.setGravity(Gravity.CENTER);
@@ -112,10 +111,10 @@ public class ScheduleFragment extends Fragment {
             actualRow.setGravity(Gravity.CENTER);
 
             if (x % 2 == 0) {
-                idRow.setBackgroundResource(R.color.colorFalse);
-                interestRow.setBackgroundResource(R.color.colorFalse);
-                principalRow.setBackgroundResource(R.color.colorFalse);
-                actualRow.setBackgroundResource(R.color.colorFalse);
+                idRow.setBackgroundResource(R.color.colorPrimaryDark);
+                interestRow.setBackgroundResource(R.color.colorPrimaryDark);
+                principalRow.setBackgroundResource(R.color.colorPrimaryDark);
+                actualRow.setBackgroundResource(R.color.colorPrimaryDark);
                 idRow.setTextColor(Color.WHITE);
                 interestRow.setTextColor(Color.WHITE);
                 principalRow.setTextColor(Color.WHITE);
@@ -128,7 +127,6 @@ public class ScheduleFragment extends Fragment {
             scheduleRow.addView(actualRow);
             scheduleLayout.addView(scheduleRow);
         }
-
     }
 
     //Schedule intent to get form result activity
